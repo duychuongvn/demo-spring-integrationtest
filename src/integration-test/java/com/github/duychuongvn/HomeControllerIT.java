@@ -1,5 +1,6 @@
 package com.github.duychuongvn;
 
+import com.github.duychuongvn.user.dao.repository.UserRepository;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import org.junit.Before;
@@ -34,6 +35,8 @@ public class HomeControllerIT {
     private MockMvc mockMvc;
     @Autowired
     private WebApplicationContext webCtx;
+    @Autowired
+    private UserRepository userRepository;
 
     @Before
     public void initRules() {
@@ -44,12 +47,14 @@ public class HomeControllerIT {
     @Test
     public void shouldGetUserSuccess() throws Exception {
 
-        MvcResult result = mockMvc.perform(get("/user/1234567890"))
+        MvcResult result = mockMvc.perform(get("/user/1234567892"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(jsonPath("$.username").value("ali.ba000"))
                 .andExpect(jsonPath("$.firstName").value("Alibaba"))
                 .andExpect(jsonPath("$.lastName").value("ali 00"))
                 .andReturn();
+
+        System.out.println(userRepository.findAll());
     }
 }
